@@ -5,8 +5,5 @@ declare global {
 
   namespace Models {
     export type UserModel = Model<Document>;
-    export type EarningsModel = Model<Document>;
-    export type BudgetModel = Model<Document>;
-    export type ExpensesModel = Model<Document>;
   }
 }
