@@ -25,6 +25,23 @@ export default class UserService {
   public async getAllUsers(query) {
     try {
       const filters = parseUserFilter(query);
+      const { name_sort, age_sort } = query;
+
+      const sort: any = {};
+
+      // Conditionally add sorting by name if query.name_sort is true
+      if (name_sort)
+        if (JSON.parse(name_sort)) {
+          sort["name.first"] = 1; // Sort by first name in ascending order
+          sort["name.last"] = 1; // Sort by last name in ascending order
+        }
+      if (age_sort)
+        if (JSON.parse(age_sort)) {
+          // Always sort by age in increasing order
+          sort["dob.age"] = 1;
+        }
+
+      sort["createdAt"] = -1;
       const users = await this.userModel.aggregate([
         {
           $match: filters.match_filter,
@@ -33,7 +50,7 @@ export default class UserService {
           $facet: {
             users: [
               {
-                $sort: { createdAt: -1 },
+                $sort: sort,
               },
               {
                 $skip: filters.count * filters.page,

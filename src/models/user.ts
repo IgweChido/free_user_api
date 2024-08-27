@@ -29,15 +29,6 @@ const User = new mongoose.Schema(
       },
     },
     location: {
-      street: {
-        number: Number,
-        name: {
-          type: String,
-          index: true,
-          lowercase: true,
-          required: true,
-        },
-      },
       city: {
         type: String,
         index: true,
