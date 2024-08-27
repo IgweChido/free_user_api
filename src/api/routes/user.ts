@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { Container } from "typedi";
 import UserService from "../../controllers/UserController";
-import user from "../../models/user";
+import userModel from "../../models/user";
 
 const route = Router();
 export default (app: Router) => {
@@ -15,7 +15,7 @@ export default (app: Router) => {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const user_details = req.body;
-        const userController = new UserService(user);
+        const userController = new UserService(userModel);
         const add_user = await userController.addUsers(user_details);
         res.status(200).json(add_user);
       } catch (err) {
@@ -28,7 +28,7 @@ export default (app: Router) => {
     "/get_all_users",
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const userController = new UserService(user);
+        const userController = new UserService(userModel);
         const get_all_user = await userController.getAllUsers(req.query);
         res.status(200).json(get_all_user);
       } catch (err) {
