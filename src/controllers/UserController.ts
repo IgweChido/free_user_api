@@ -2,9 +2,7 @@ import { Service } from "typedi";
 import { parseUserFilter } from "../services/filter";
 @Service()
 export default class UserService {
-  constructor(
-    private userModel: Models.UserModel // other constructors
-  ) {}
+  constructor(private userModel) {}
 
   // example of function in a service/controller class
 
