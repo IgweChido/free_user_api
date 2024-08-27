@@ -31,14 +31,19 @@ export default class UserService {
 
       // Conditionally add sorting by name if query.name_sort is true
       if (name_sort)
-        if (JSON.parse(name_sort)) {
-          sort["name.first"] = 1; // Sort by first name in ascending order
-          sort["name.last"] = 1; // Sort by last name in ascending order
+        if (name_sort == "ascending") {
+          sort["name.first"] = 1;
+          sort["name.last"] = 1;
+        } else {
+          sort["name.first"] = -1;
+          sort["name.last"] = -1;
         }
       if (age_sort)
-        if (JSON.parse(age_sort)) {
+        if (age_sort == "ascending") {
           // Always sort by age in increasing order
           sort["dob.age"] = 1;
+        } else {
+          sort["dob.age"] = -1;
         }
 
       sort["createdAt"] = -1;
