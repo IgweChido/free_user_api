@@ -1,96 +1,99 @@
 import mongoose from "mongoose";
 
-const User = new mongoose.Schema({
-  gender: {
-    type: String,
-    required: true,
-    enum: ["male", "female", "other"],
-    lowercase: true,
-  },
-  name: {
-    title: {
-      type: String,
-      enum: ["miss", "master", "mrs", "mr"],
-      lowercase: true,
-      required: true,
-    },
-    first: {
+const User = new mongoose.Schema(
+  {
+    gender: {
       type: String,
       required: true,
-      index: true,
+      enum: ["male", "female", "other"],
       lowercase: true,
     },
-    last: {
-      type: String,
-      index: true,
-      lowercase: true,
-      required: true,
-    },
-  },
-  location: {
-    street: {
-      number: Number,
-      name: {
+    name: {
+      title: {
+        type: String,
+        enum: ["miss", "master", "mrs", "mr"],
+        lowercase: true,
+        required: true,
+      },
+      first: {
+        type: String,
+        required: true,
+        index: true,
+        lowercase: true,
+      },
+      last: {
         type: String,
         index: true,
         lowercase: true,
         required: true,
       },
     },
-    city: {
+    location: {
+      street: {
+        number: Number,
+        name: {
+          type: String,
+          index: true,
+          lowercase: true,
+          required: true,
+        },
+      },
+      city: {
+        type: String,
+        index: true,
+        lowercase: true,
+        required: true,
+      },
+      state: {
+        type: String,
+        index: true,
+        lowercase: true,
+        required: true,
+      },
+      country: {
+        type: String,
+        index: true,
+        lowercase: true,
+        required: true,
+      },
+      postcode: Number,
+    },
+    email: {
       type: String,
+      required: true,
       index: true,
       lowercase: true,
-      required: true,
     },
-    state: {
-      type: String,
-      index: true,
-      lowercase: true,
-      required: true,
+    dob: {
+      date: {
+        type: Date,
+        required: true,
+      },
+      age: {
+        type: Number,
+        index: true,
+        required: true,
+      },
     },
-    country: {
-      type: String,
-      index: true,
-      lowercase: true,
-      required: true,
+    registered: {
+      date: {
+        type: Date,
+        required: true,
+      },
+      age: Number,
     },
-    postcode: Number,
-  },
-  email: {
-    type: String,
-    required: true,
-    index: true,
-    lowercase: true,
-  },
-  dob: {
-    date: {
-      type: Date,
-      required: true,
-    },
-    age: {
-      type: Number,
-      index: true,
-      required: true,
-    },
-  },
-  registered: {
-    date: {
+    phone: {
       type: String,
       required: true,
+      index: true,
     },
-    age: Number,
+    cell: {
+      type: String,
+      required: true,
+      index: true,
+    },
   },
-  phone: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  cell: {
-    type: String,
-    required: true,
-    index: true,
-  },
-});
+  { timestamps: true }
+);
 
 export default mongoose.model<mongoose.Document>("User", User);

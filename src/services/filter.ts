@@ -68,10 +68,7 @@ export const parseUserFilter = (query) => {
         ...match_filter,
         ...{
           $expr: {
-            $eq: [
-              { $month: { $dateFromString: { dateString: "$dob.date" } } },
-              monthNumber,
-            ],
+            $eq: [{ $month: "$dob.date" }, monthNumber],
           },
         },
       };
