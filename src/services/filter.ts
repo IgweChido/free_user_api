@@ -33,19 +33,27 @@ export const parseUserFilter = (query) => {
   }
 
   if (query.title) {
+    const titles = query.title.split(",").map((item) => item.trim());
+
     match_filter = {
       ...match_filter,
-      ...{ "name.title": query.title.toLowerCase() },
+      "name.title": { $in: titles.map((title) => title.toLowerCase()) },
     };
   }
   if (query.location) {
+    const locations = query.location.split(",").map((item) => item.trim());
+
     match_filter = {
       ...match_filter,
-      ...{ "location.country": query.location.toLowerCase() },
+      "location.country": {
+        $in: locations.map((location) => location.toLowerCase()),
+      },
     };
   }
-
   if (query.dob) {
+    const dobs = query.dob.split(",").map((item) => item.trim().toLowerCase());
+    console.log(dobs);
+
     const monthMapping = {
       january: 1,
       february: 2,
@@ -61,14 +69,14 @@ export const parseUserFilter = (query) => {
       december: 12,
     };
 
-    const monthNumber = monthMapping[query.dob.toLowerCase()];
+    const months = dobs.map((dob) => monthMapping[dob]).filter(Boolean);
 
-    if (monthNumber) {
+    if (months.length > 0) {
       match_filter = {
         ...match_filter,
         ...{
           $expr: {
-            $eq: [{ $month: "$dob.date" }, monthNumber],
+            $in: [{ $month: "$dob.date" }, months],
           },
         },
       };
