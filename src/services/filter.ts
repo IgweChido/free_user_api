@@ -12,15 +12,19 @@ export const parseUserFilter = (query) => {
   const search_params = {};
 
   const start_date = query.start_date
-    ? moment(query.start_date, "MM/DD/YYYY", true).isValid()
-      ? moment(query.start_date, "MM/DD/YYYY").format()
+    ? moment(query.start_date, "YYYY-MM-DD", true).isValid()
+      ? moment(query.start_date, "YYYY-MM-DD").format()
       : null
     : null;
+
+  console.log(query.start_date, start_date);
   const end_date = query.end_date
-    ? moment(query.end_date, "MM/DD/YYYY", true).isValid()
-      ? moment(query.end_date, "MM/DD/YYYY").format()
+    ? moment(query.end_date, "YYYY-MM-DD", true).isValid()
+      ? moment(query.end_date, "YYYY-MM-DD").format()
       : null
     : null;
+
+  console.log(query.end_date, end_date);
 
   if (start_date || end_date) {
     date_filter = { createdAt: {} };
@@ -39,6 +43,18 @@ export const parseUserFilter = (query) => {
       ...match_filter,
       "name.title": { $in: titles.map((title) => title.toLowerCase()) },
     };
+  }
+
+  if (query.gender) {
+    const genders = query.gender.split(",").map((item) => item.trim());
+    console.log("Query genders:", genders);
+
+    match_filter = {
+      ...match_filter,
+      gender: { $in: genders.map((gender) => gender.toLowerCase()) },
+    };
+
+    console.log("Match filter:", match_filter);
   }
   if (query.location) {
     const locations = query.location.split(",").map((item) => item.trim());
@@ -87,12 +103,6 @@ export const parseUserFilter = (query) => {
     match_filter = {
       ...match_filter,
       ...{ "dob.age": Number(query.age) },
-    };
-  }
-  if (query.gender) {
-    match_filter = {
-      ...match_filter,
-      ...{ gender: query.gender.toLowerCase() },
     };
   }
 

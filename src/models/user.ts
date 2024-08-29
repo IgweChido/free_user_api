@@ -5,6 +5,7 @@ const User = new mongoose.Schema(
     gender: {
       type: String,
       required: true,
+      index: true,
       enum: ["male", "female", "other"],
       lowercase: true,
     },
@@ -12,6 +13,7 @@ const User = new mongoose.Schema(
       title: {
         type: String,
         enum: ["miss", "master", "mrs", "mr"],
+        index: true,
         lowercase: true,
         required: true,
       },
