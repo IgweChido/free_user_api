@@ -26,6 +26,7 @@ export const parseUserFilter = (query) => {
     : null;
 
   console.log(query.end_date, end_date);
+  console.log(query.start_date, start_date);
 
   date_filter = { createdAt: {} };
   if (start_date || end_date) {
@@ -36,6 +37,8 @@ export const parseUserFilter = (query) => {
     if (end_date) {
       date_filter.createdAt["$lte"] = new Date(end_date);
     }
+  } else {
+    date_filter = null;
   }
 
   if (query.title) {
