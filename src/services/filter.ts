@@ -13,21 +13,23 @@ export const parseUserFilter = (query) => {
 
   const start_date = query.start_date
     ? moment(query.start_date, "YYYY-MM-DD", true).isValid()
-      ? moment(query.start_date, "YYYY-MM-DD").format()
+      ? moment(query.start_date, "YYYY-MM-DD").startOf("day").format()
       : null
     : null;
 
   console.log(query.start_date, start_date);
+
   const end_date = query.end_date
     ? moment(query.end_date, "YYYY-MM-DD", true).isValid()
-      ? moment(query.end_date, "YYYY-MM-DD").format()
+      ? moment(query.end_date, "YYYY-MM-DD").endOf("day").format()
       : null
     : null;
 
   console.log(query.end_date, end_date);
 
+  date_filter = { createdAt: {} };
   if (start_date || end_date) {
-    date_filter = { createdAt: {} };
+    date_filter.createdAt = {};
     if (start_date) {
       date_filter.createdAt["$gte"] = new Date(start_date);
     }
